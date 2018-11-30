@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.clickable-icon {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.clickable-icon:hover {
+    transition: all ease 0.5s;
+    opacity: 1;
+}

@@ -1,22 +1,2 @@
-<div class="form-group">
-    <input class="form-control" type="text" placeholder="Insert IP" [(ngModel)]="newip" /> <button (click)="add()">Add</button>
-</div>
-
-<div><button class="btn btn-success" (click)="send()">Send</button></div>
-
-<ul *ngFor="let ip of ips">
-    <li>{{ ip }}</li>
-</ul>
-
-<div style="height: 70vh;">
-    <ngx-charts-line-chart
-        [showGridLines]="true"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        [timeline]="true"
-        [legend]="true"
-        [results]="hosts"
-    ></ngx-charts-line-chart>
-</div>
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>

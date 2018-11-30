@@ -1,0 +1,38 @@
+.card-deck {
+    margin: 30px 15px;
+}
+
+.card-deck > .card {
+    height: 70vh;
+}
+
+.card textarea {
+    min-height: 150px;
+}
+
+#add-btn {
+    margin-right: 15px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 15px;
+    clear: both;
+}
+
+.delete-icon {
+    color: red;
+}
+
+h4 {
+    display: flex;
+}
+
+h4 > .material-icons {
+    font-size: 1.2em;
+    margin-right: 10px;
+}

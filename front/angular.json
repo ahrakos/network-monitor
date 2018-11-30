@@ -21,6 +21,9 @@
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": [
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                            "node_modules/font-awesome/css/font-awesome.min.css",
+                            "src/assets/css/material-icons.css",
+                            "src/assets/css/paper-kit.css",
                             "node_modules/@swimlane/ngx-charts/release/index.css",
                             "src/styles.css"
                         ],
