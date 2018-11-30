@@ -29,4 +29,13 @@ export class ConfigComponent implements OnInit {
     clear() {
         this.newHosts = "";
     }
+
+    delete(host) {
+        this.ping.deleteHost(host).subscribe(
+            (res) => {
+                // show toastr
+            },
+            (err) => console.error(err)
+        );
+    }
 }

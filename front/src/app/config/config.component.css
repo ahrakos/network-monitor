@@ -36,3 +36,8 @@ h4 > .material-icons {
     font-size: 1.2em;
     margin-right: 10px;
 }
+
+#tracked-hosts .card-text {
+    height: 50vh;
+    overflow: scroll;
+}

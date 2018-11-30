@@ -8,29 +8,26 @@ import { BehaviorSubject, Observable } from "rxjs";
 })
 export class PingService {
     private hosts: BehaviorSubject<any>;
-    private mappedHosts: Map<string, number>;
+    private mappedHosts: Map<string, any>;
 
     constructor(private realtime: RealtimeService, public http: HttpClient) {
-        this.mappedHosts = new Map<string, number>();
+        this.mappedHosts = new Map<string, any>();
         this.hosts = new BehaviorSubject<any>([]);
 
         this.realtime.onHostStatReceived().subscribe((res) => {
-            let hosts = this.hosts.getValue();
             if (!this.mappedHosts.has(res.host)) {
-                hosts.push({
+                this.mappedHosts.set(res.host, {
                     name: res.host,
                     series: []
                 });
-
-                this.mappedHosts.set(res.host, hosts.length - 1);
             }
 
-            hosts[this.mappedHosts.get(res.host)].series.push({
+            this.mappedHosts.get(res.host).series.push({
                 name: new Date(res.time),
                 value: res.responseTime !== "unknown" ? res.responseTime : 2500
             });
 
-            this.hosts.next([...hosts]);
+            this.hosts.next(Array.from(this.mappedHosts.values()));
         });
     }
 
@@ -44,14 +41,30 @@ export class PingService {
         };
 
         return new Observable<boolean>((observer) => {
-            this.http.post<any>("http://localhost:9500/hosts/add", params).subscribe(
+            this.http.post<any>("http://localhost:9500/hosts", params).subscribe(
                 (hosts) => {
-                    let h = this.hosts.getValue();
                     for (let host of hosts) {
-                        h.push(host);
+                        this.mappedHosts.set(host, {
+                            name: host,
+                            series: []
+                        });
                     }
 
-                    this.hosts.next(h);
+                    this.hosts.next(Array.from(this.mappedHosts.values()));
+                    observer.next(true);
+                },
+                (err) => observer.error(err)
+            );
+        });
+    }
+
+    public deleteHost(host: string): Observable<any> {
+        return new Observable<boolean>((observer) => {
+            this.http.delete<any>(`http://localhost:9500/hosts/${host}`).subscribe(
+                (res) => {
+                    this.mappedHosts.delete(host);
+
+                    this.hosts.next(Array.from(this.mappedHosts.values()));
                     observer.next(true);
                 },
                 (err) => observer.error(err)

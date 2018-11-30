@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 let hosts = [];
 let clients = [];
 
-app.post("/hosts/add", (req, res) => {
+app.post("/hosts", (req, res) => {
     let added = [];
     for (let ip of req.body.hosts) {
         if (hosts.indexOf(ip) !== -1) {
@@ -26,6 +26,22 @@ app.post("/hosts/add", (req, res) => {
     }
 
     res.send(added);
+    res.end();
+});
+
+app.delete("/hosts/:host", (req, res) => {
+    let host = req.params.host;
+    if ((let index = hosts.indexOf(host)) === -1) {
+        res.status(403);
+        res.send({
+            error: 'no_such_host'
+        });
+
+        res.end();
+        return;
+    }
+    
+    delete hosts[index];
     res.end();
 });
 
