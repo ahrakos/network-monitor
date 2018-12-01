@@ -1,5 +1,6 @@
 import { PingService } from "./../services/ping/ping.service";
 import { Component, OnInit } from "@angular/core";
+import { NgxAlertsService } from "@ngx-plus/ngx-alerts";
 
 @Component({
     selector: "app-config",
@@ -8,7 +9,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class ConfigComponent implements OnInit {
     public newHosts: string;
-    constructor(public ping: PingService) {}
+    constructor(public ping: PingService, private alerts: NgxAlertsService) {}
 
     ngOnInit() {
         this.newHosts = "";
@@ -18,10 +19,17 @@ export class ConfigComponent implements OnInit {
         this.ping.addHosts(this.newHosts.split("\n")).subscribe(
             (res) => {
                 this.newHosts = "";
-                console.log("Success");
+
+                return this.alerts.notifySuccess({
+                    title: "Success",
+                    body: "Hosts were added successfully!"
+                });
             },
             (err) => {
-                console.error(err);
+                return this.alerts.notifyError({
+                    title: "Error",
+                    body: "Hosts were not added!"
+                });
             }
         );
     }
@@ -31,11 +39,30 @@ export class ConfigComponent implements OnInit {
     }
 
     delete(host) {
-        this.ping.deleteHost(host).subscribe(
-            (res) => {
-                // show toastr
+        this.alerts.alertWarning(
+            {
+                title: `Delete ${host.name}?`,
+                text: "Are you sure you want to delete this host?"
             },
-            (err) => console.error(err)
+            (result) => {
+                if (result.value !== undefined && result.value) {
+                    this.ping.deleteHost(host.name).subscribe(
+                        (res) => {
+                            this.alerts.notifySuccess({
+                                title: "Success",
+                                body: "Host was deleted!"
+                            });
+                        },
+                        (err) => {
+                            this.alerts.notifyError({
+                                title: "Error",
+                                body: "Host was not deleted!"
+                            });
+                        }
+                    );
+                }
+            },
+            () => {}
         );
     }
 }

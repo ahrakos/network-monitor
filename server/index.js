@@ -31,17 +31,18 @@ app.post("/hosts", (req, res) => {
 
 app.delete("/hosts/:host", (req, res) => {
     let host = req.params.host;
-    if ((let index = hosts.indexOf(host)) === -1) {
+    let index = -1;
+    if ((index = hosts.indexOf(host)) === -1) {
         res.status(403);
         res.send({
-            error: 'no_such_host'
+            error: "no_such_host"
         });
 
         res.end();
         return;
     }
-    
-    delete hosts[index];
+
+    hosts.splice(index, 1);
     res.end();
 });
 
