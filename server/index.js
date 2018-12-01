@@ -64,6 +64,10 @@ setInterval(() => {
     for (host of hosts) {
         ping.promise.probe(host).then((res) => {
             console.log(res);
+            if (res.time === "unknown") {
+                return;
+            }
+
             io.emit("ip-result", {
                 host: res.host,
                 responseTime: res.time,

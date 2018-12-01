@@ -1,9 +1,9 @@
 .card-deck {
-    margin: 30px 15px;
+    margin-top: 30px;
 }
 
 .card-deck > .card {
-    height: 70vh;
+    min-height: 50vh;
 }
 
 .card textarea {
@@ -40,4 +40,12 @@ h4 > .material-icons {
 #tracked-hosts .card-text {
     height: 50vh;
     overflow: scroll;
+}
+
+#no-hosts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
 }

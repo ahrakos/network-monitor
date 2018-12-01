@@ -8,14 +8,14 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxAlertsModule } from "@ngx-plus/ngx-alerts";
-import { ConfigComponent } from "./config/config.component";
-import { HomeComponent } from "./home/home.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { MatIconModule } from "@angular/material";
+import { SettingsComponent } from "./settings/settings.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 @NgModule({
-    declarations: [AppComponent, ConfigComponent, HomeComponent, PageNotFoundComponent, NavbarComponent],
+    declarations: [AppComponent, PageNotFoundComponent, NavbarComponent, SettingsComponent, DashboardComponent],
     imports: [
         HttpClientModule,
         FormsModule,

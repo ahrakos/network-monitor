@@ -1,15 +1,16 @@
-import { PingService } from "./../services/ping/ping.service";
+import { SettingsService } from "./../services/settings/settings.service";
 import { Component, OnInit } from "@angular/core";
+import { PingService } from "../services/ping/ping.service";
 import { NgxAlertsService } from "@ngx-plus/ngx-alerts";
 
 @Component({
-    selector: "app-config",
-    templateUrl: "./config.component.html",
-    styleUrls: ["./config.component.css"]
+    selector: "app-settings",
+    templateUrl: "./settings.component.html",
+    styleUrls: ["./settings.component.css"]
 })
-export class ConfigComponent implements OnInit {
+export class SettingsComponent implements OnInit {
     public newHosts: string;
-    constructor(public ping: PingService, private alerts: NgxAlertsService) {}
+    constructor(public ping: PingService, private alerts: NgxAlertsService, public settings: SettingsService) {}
 
     ngOnInit() {
         this.newHosts = "";
