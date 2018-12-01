@@ -8,16 +8,20 @@ const port = 9500;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const routes = require("./routes/api");
+const events = require("./realtime/events");
+
 app.use(cors());
 app.use(bodyParser.json());
 
-let hosts = [];
-let clients = [];
-let settings = {
+global.io = io;
+global.hosts = [];
+global.clients = [];
+global.settings = {
     pingTimeInterval: 5
 };
 
-const pingHosts = () => {
+global.pingHosts = () => {
     global.mainInterval = setInterval(() => {
         for (host of hosts) {
             ping.promise.probe(host).then((res) => {
@@ -36,68 +40,8 @@ const pingHosts = () => {
     }, settings.pingTimeInterval * 1000);
 };
 
-app.post("/hosts", (req, res) => {
-    let added = [];
-    for (let ip of req.body.hosts) {
-        if (hosts.indexOf(ip) !== -1) {
-            continue;
-        }
-
-        added.push(ip);
-        hosts.push(ip);
-    }
-
-    res.send(added);
-    res.end();
-});
-
-app.delete("/hosts/:host", (req, res) => {
-    let host = req.params.host;
-    let index = -1;
-    if ((index = hosts.indexOf(host)) === -1) {
-        res.status(403);
-        res.send({
-            error: "no_such_host"
-        });
-
-        res.end();
-        return;
-    }
-
-    hosts.splice(index, 1);
-    res.end();
-});
-
-app.get("/settings", (req, res) => {
-    res.send(settings);
-    res.end();
-});
-
-app.post("/settings", (req, res) => {
-    let updateSettings = req.body.settings;
-
-    Object.assign(settings, updateSettings);
-
-    clearInterval(mainInterval);
-    pingHosts();
-
-    res.send(settings);
-    res.end();
-});
-
-io.on("connection", (socket) => {
-    console.log(socket.client.id);
-    clients[socket.client.id] = true;
-
-    socket.on("disconnect", () => {
-        for (let id in clients) {
-            if (id === socket.id) {
-                delete clients[id];
-                break;
-            }
-        }
-    });
-});
+routes(app);
+events(io);
 
 pingHosts();
 http.listen(port);
