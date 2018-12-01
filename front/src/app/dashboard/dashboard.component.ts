@@ -10,9 +10,7 @@ import { PingService } from "../services/ping/ping.service";
 export class DashboardComponent implements OnInit {
     public xScaleMin: Date;
 
-    private timeInterval: any;
-
-    constructor(public ping: PingService, private settings: SettingsService) {}
+    constructor(public ping: PingService, public settings: SettingsService) {}
 
     ngOnInit() {
         let date = new Date(Date.now());
@@ -23,10 +21,14 @@ export class DashboardComponent implements OnInit {
     }
 
     initInterval() {
-        this.timeInterval = setInterval(() => {
+        setInterval(() => {
             let date = new Date(Date.now());
             date.setSeconds(date.getSeconds() - 60 * this.settings.timeInterval);
             this.xScaleMin = date;
         }, 1000);
+    }
+
+    yFormatting(value) {
+        return value + "ms";
     }
 }

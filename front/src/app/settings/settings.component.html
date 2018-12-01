@@ -12,8 +12,12 @@
                     ><a class="nav-link" data-toggle="tab" href="#alerts-tab" role="tab">Alerts</a>
                 </li>
                 <li class="nav-item">
-                    <span><i class="material-icons">toc</i></span
-                    ><a class="nav-link" data-toggle="tab" href="#misc-tab" role="tab">Misc</a>
+                    <span><i class="material-icons">dns</i></span
+                    ><a class="nav-link" data-toggle="tab" href="#server-tab" role="tab">Server</a>
+                </li>
+                <li class="nav-item">
+                    <span><i class="material-icons">show_chart</i></span
+                    ><a class="nav-link" data-toggle="tab" href="#view-tab" role="tab">View</a>
                 </li>
             </ul>
         </div>
@@ -63,7 +67,7 @@
             </div>
         </div>
         <div class="tab-pane" id="alerts-tab" role="tabpanel"></div>
-        <div class="tab-pane" id="misc-tab" role="tabpanel">
+        <div class="tab-pane" id="view-tab" role="tabpanel">
             <div class="form-group">
                 <label class="font-weight-bold">Time interval</label>
                 <input
@@ -71,10 +75,47 @@
                     class="form-control"
                     [(ngModel)]="settings.timeInterval"
                     class="form-control"
-                    aria-describedby="helpId"
+                    aria-describedby="timeIntervalHelpId"
                     placeholder="Recent time for charts"
                 />
-                <small id="helpId" class="form-text text-muted">Enter the amount of minutes the charts will be updated to.</small>
+                <small id="timeIntervalHelpId" class="form-text text-muted"
+                    >Enter the amount of minutes the charts will be updated to.</small
+                >
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold">Y maximum scale</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    [(ngModel)]="settings.yMaxScale"
+                    class="form-control"
+                    aria-describedby="yMaxScaleHelpId"
+                    placeholder="Maximum miliseconds for charts"
+                />
+                <small id="yMaxScaleHelpId" class="form-text text-muted">Enter the amount of miliseconds the charts will show.</small>
+            </div>
+        </div>
+        <div class="tab-pane" id="server-tab" role="tabpanel">
+            <div class="form-group">
+                <label class="font-weight-bold">Ping time interval</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    [(ngModel)]="serverSettings.settings.pingTimeInterval"
+                    class="form-control"
+                    aria-describedby="pingTimeIntervalHelpId"
+                    placeholder="Recent time for charts"
+                />
+                <small id="pingTimeIntervalHelpId" class="form-text text-muted"
+                    >Enter the amount of seconds the server will ping the hosts.</small
+                >
+            </div>
+
+            <div class="float-right">
+                <a class="btn btn-default text-white" role="button" style="margin-right: 15px;" (click)="serverSettings.syncSettings()"
+                    >Sync settings</a
+                >
+                <a class="btn btn-success text-white" role="button" (click)="updateServerSettings()">Update server settings</a>
             </div>
         </div>
     </div>

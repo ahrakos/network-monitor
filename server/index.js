@@ -13,6 +13,28 @@ app.use(bodyParser.json());
 
 let hosts = [];
 let clients = [];
+let settings = {
+    pingTimeInterval: 5
+};
+
+const pingHosts = () => {
+    global.mainInterval = setInterval(() => {
+        for (host of hosts) {
+            ping.promise.probe(host).then((res) => {
+                console.log(res);
+                if (res.time === "unknown") {
+                    return;
+                }
+
+                io.emit("ip-result", {
+                    host: res.host,
+                    responseTime: res.time,
+                    time: new Date(Date.now())
+                });
+            });
+        }
+    }, settings.pingTimeInterval * 1000);
+};
 
 app.post("/hosts", (req, res) => {
     let added = [];
@@ -46,6 +68,23 @@ app.delete("/hosts/:host", (req, res) => {
     res.end();
 });
 
+app.get("/settings", (req, res) => {
+    res.send(settings);
+    res.end();
+});
+
+app.post("/settings", (req, res) => {
+    let updateSettings = req.body.settings;
+
+    Object.assign(settings, updateSettings);
+
+    clearInterval(mainInterval);
+    pingHosts();
+
+    res.send(settings);
+    res.end();
+});
+
 io.on("connection", (socket) => {
     console.log(socket.client.id);
     clients[socket.client.id] = true;
@@ -60,21 +99,5 @@ io.on("connection", (socket) => {
     });
 });
 
-setInterval(() => {
-    for (host of hosts) {
-        ping.promise.probe(host).then((res) => {
-            console.log(res);
-            if (res.time === "unknown") {
-                return;
-            }
-
-            io.emit("ip-result", {
-                host: res.host,
-                responseTime: res.time,
-                time: new Date(Date.now())
-            });
-        });
-    }
-}, 5000);
-
+pingHosts();
 http.listen(port);

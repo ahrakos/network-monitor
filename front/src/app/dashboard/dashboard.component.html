@@ -12,6 +12,9 @@
             [results]="ping.Hosts | async"
             [autoScale]="true"
             [xScaleMin]="xScaleMin"
-        ></ngx-charts-line-chart>
+            [yScaleMax]="settings.yMaxScale"
+            [yAxisTickFormatting]="yFormatting"
+        >
+        </ngx-charts-line-chart>
     </div>
 </div>
