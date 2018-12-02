@@ -31,4 +31,6 @@ export class DashboardComponent implements OnInit {
     yFormatting(value) {
         return value + "ms";
     }
+
+    select(value) {}
 }

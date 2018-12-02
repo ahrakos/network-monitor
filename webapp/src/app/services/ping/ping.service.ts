@@ -1,3 +1,4 @@
+import { URIService } from "./../uri/uri.service";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RealtimeService } from "../realtime/realtime.service";
@@ -10,7 +11,7 @@ export class PingService {
     private hosts: BehaviorSubject<any>;
     private mappedHosts: Map<string, any>;
 
-    constructor(private realtime: RealtimeService, public http: HttpClient) {
+    constructor(private realtime: RealtimeService, public http: HttpClient, private URI: URIService) {
         this.mappedHosts = new Map<string, any>();
         this.hosts = new BehaviorSubject<any>([]);
 
@@ -41,7 +42,7 @@ export class PingService {
         };
 
         return new Observable<boolean>((observer) => {
-            this.http.post<any>("http://localhost:9500/hosts", params).subscribe(
+            this.http.post<any>(`${this.URI.APP_URI}${this.URI.ACTIONS.ADD_HOSTS}`, params).subscribe(
                 (hosts) => {
                     for (let host of hosts) {
                         this.mappedHosts.set(host, {
@@ -60,7 +61,7 @@ export class PingService {
 
     public deleteHost(host: string): Observable<any> {
         return new Observable<boolean>((observer) => {
-            this.http.delete<any>(`http://localhost:9500/hosts/${host}`).subscribe(
+            this.http.delete<any>(`${this.URI.APP_URI}${this.URI.ACTIONS.DELETE_HOST}${host}`).subscribe(
                 (res) => {
                     this.mappedHosts.delete(host);
 

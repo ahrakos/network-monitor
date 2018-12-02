@@ -1,3 +1,4 @@
+import { URIService } from "./../uri/uri.service";
 import { Injectable } from "@angular/core";
 import io from "socket.io-client";
 import { Observable } from "rxjs";
@@ -8,8 +9,8 @@ import { Observable } from "rxjs";
 export class RealtimeService {
     private socket: any;
 
-    constructor() {
-        this.socket = io("http://localhost:9500");
+    constructor(private URI: URIService) {
+        this.socket = io(`${this.URI.APP_URI}`);
     }
 
     private onMessageReceived(event: string): Observable<any> {

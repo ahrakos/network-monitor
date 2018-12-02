@@ -3,6 +3,7 @@ const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 const ping = require("ping");
+const path = require("path");
 
 const port = 9500;
 const bodyParser = require("body-parser");
@@ -13,6 +14,7 @@ const events = require("./realtime/events");
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.resolve(__dirname, "../webapp/dist")));
 
 global.io = io;
 global.hosts = [];

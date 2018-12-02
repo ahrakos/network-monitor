@@ -1,3 +1,4 @@
+import { URIService } from "./../uri/uri.service";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -8,13 +9,13 @@ import { Injectable } from "@angular/core";
 export class ServerSettingsService {
     public settings: any;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private URI: URIService) {
         this.settings = {};
         this.syncSettings();
     }
 
     syncSettings() {
-        this.http.get<any>("http://localhost:9500/settings").subscribe(
+        this.http.get<any>(`${this.URI.APP_URI}${this.URI.ACTIONS.GET_SETTINGS}`).subscribe(
             (settings) => {
                 this.settings = settings;
             },
@@ -27,6 +28,6 @@ export class ServerSettingsService {
             settings: this.settings
         };
 
-        return this.http.post("http://localhost:9500/settings", params);
+        return this.http.post(`${this.URI.APP_URI}${this.URI.ACTIONS.GET_SETTINGS}`, params);
     }
 }
