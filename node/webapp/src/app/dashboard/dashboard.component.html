@@ -1,0 +1,21 @@
+<div class="container">
+    <h2>Dashboard</h2>
+    <div class="main-table">
+        <ngx-charts-line-chart
+            [showGridLines]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [timeline]="false"
+            [legend]="true"
+            [results]="ping.Hosts | async"
+            [autoScale]="true"
+            [xScaleMin]="xScaleMin"
+            [yScaleMax]="settings.yMaxScale"
+            [yAxisTickFormatting]="yFormatting"
+            (select)="select($event)"
+        >
+        </ngx-charts-line-chart>
+    </div>
+</div>

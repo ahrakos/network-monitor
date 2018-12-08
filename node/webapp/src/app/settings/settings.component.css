@@ -1,0 +1,51 @@
+.card-deck {
+    margin-top: 30px;
+}
+
+.card-deck > .card {
+    min-height: 50vh;
+}
+
+.card textarea {
+    min-height: 150px;
+}
+
+#add-btn {
+    margin-right: 15px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 15px;
+    clear: both;
+}
+
+.delete-icon {
+    color: red;
+}
+
+h4 {
+    display: flex;
+}
+
+h4 > .material-icons {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+#tracked-hosts .card-text {
+    height: 50vh;
+    overflow: scroll;
+}
+
+#no-hosts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}

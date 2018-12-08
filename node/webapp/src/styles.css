@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~ng-snotify/styles/material.css";
+@import "~sweetalert2/dist/sweetalert2.css";
+
+.clickable-icon {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.clickable-icon:hover {
+    transition: all ease 0.5s;
+    opacity: 1;
+}
+
+.swal2-popup .swal2-actions {
+    justify-content: space-evenly !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}

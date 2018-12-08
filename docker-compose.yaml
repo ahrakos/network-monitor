@@ -14,27 +14,22 @@ services:
             - ${SERVER_PORT}:9500
         tty: true
         stdin_open: true
-    # nm_webapp:
-    #     container_name: nm_webapp
-    #     build:
-    #         context: .
-    #         args:
-    #             ROS_DISTRO: ${ROS_DISTRO}
-    #             ROS_MASTER_URI: http://${ROS_MASTER_IP}:${ROS_MASTER_PORT}
-    #             SCRIPT_FOLDER: roslaunch
-    #     networks:
-    #         witty:
-    #             ipv4_address: ${ROSRUN_NODE_1}
-    #     env_file:
-    #         - .env
-    #         - ./envs/.env_turtlebot_gazebo
-    #     volumes:
-    #         - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    #         - workspace:/root/catkin_ws/src
-    #     tty: true
-    #     stdin_open: true
-    #     depends_on:
-    #         - roscore
+    nm_db:
+        container_name: nm_db
+        build:
+            context: ./mysql
+        command: --default-authentication-plugin=mysql_native_password
+        networks:
+            network_monitor:
+                ipv4_address: ${DB_IP}
+        volumes:
+            - db:/var/lib/mysql
+        ports:
+            - ${DB_PORT}:3306
+        env_file:
+            - .env
+        tty: true
+        stdin_open: true
 
 networks:
     network_monitor:
@@ -57,3 +52,9 @@ volumes:
             o: bind
             type: none
             device: ${WEB_APP}
+    db:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ${DB_APP}
